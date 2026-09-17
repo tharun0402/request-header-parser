@@ -8,8 +8,13 @@ app.get("/", function (req, res) {
 });
 
 app.get("/api/whoami", function (req, res) {
+  const ip =
+    req.headers["x-forwarded-for"]?.split(",")[0] ||
+    req.socket.remoteAddress ||
+    req.ip;
+
   res.json({
-    ipaddress: req.ip,
+    ipaddress: ip,
     language: req.headers["accept-language"],
     software: req.headers["user-agent"]
   });
